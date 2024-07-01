@@ -62,7 +62,43 @@ class QM_Output_Html_Cookies extends QM_Output_Html {
 	}
 
 	public function output() {
-		echo '<p>Hello!</p>';
+		$cookies = $_COOKIE;
+		$this->before_tabular_output();
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th>Type</th>";
+		echo "<th>Path</th>";
+		echo "<th>Name</th>";
+		echo "<th>Value</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		foreach ($cookies as $key => $value) {
+			echo "<tr>";
+			echo "<td>Server</td>";
+			echo "<td>/</td>";
+			echo "<td>$key</td>";
+			echo "<td>$value</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		$this->after_tabular_output();
+
+		echo <<<HTML
+<script>
+	qmCookiesTable = document.getElementById('qm-cookies').getElementsByTagName('tbody')[0];
+	console.log(qmCookiesTable);
+	var cookieRow = qmCookiesTable.insertRow();
+	var cookieType = cookieRow.insertCell();
+	var cookiePath = cookieRow.insertCell();
+	var cookieName = cookieRow.insertCell();
+	var cookieValue = cookieRow.insertCell();
+	cookieType.innerHTML = "Client";
+	cookiePath.innerHTML = "/";
+	cookieName.innerHTML = "TestCookie";
+	cookieValue.innerHTML = "It works!";
+</script>
+HTML;
 	}
 }
 
